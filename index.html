@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Adel — Product Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --cream: #ede7d9;
+    --accent: #c8441a;
+    --accent-light: #e8622d;
+    --muted: #7a7166;
+    --line: rgba(13,13,13,0.12);
+    --card-bg: #fff9f0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.18s ease, width 0.3s, height 0.3s;
+    opacity: 0.5;
+  }
+  .cursor.hover { width: 20px; height: 20px; }
+  .cursor-ring.hover { width: 56px; height: 56px; opacity: 0.2; }
+
+
+  /* PROJECT LINK OVERLAY */
+  .project-card { position: relative; }
+  .project-link-btn {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    width: 38px; height: 38px;
+    border: 1px solid var(--line);
+    background: var(--card-bg);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    cursor: none;
+    z-index: 2;
+  }
+  .project-link-btn::after {
+    content: "↗";
+    font-size: 1rem;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .project-link-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.08);
+  }
+  .project-link-btn:hover::after { color: white; }
+
+  /* HERO PHOTO */
+  .hero-visual img { transition: transform 0.6s ease; }
+  .hero-visual:hover img { transform: scale(1.03); }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9990;
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    background: rgba(245,240,232,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex; gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    border: none;
+    padding: 0.6rem 1.4rem;
+    cursor: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding-right: 4rem;
+    animation: fadeUp 0.9s ease both;
+  }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.8rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.3rem;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+  .hero-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #4a4540;
+    max-width: 440px;
+    margin-bottom: 3rem;
+  }
+  .hero-btns {
+    display: flex; gap: 1.2rem; align-items: center;
+  }
+  .btn-primary {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 1rem 2rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    cursor: none;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+  .btn-secondary {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 1rem 2rem;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    cursor: none;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-right {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-end;
+    position: relative;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+  .hero-visual {
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 3/4;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-visual-inner {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-visual-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #e8ddd0 0%, #d4c9b8 100%);
+  }
+  .hero-visual-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18rem;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(200,68,26,0.08);
+    position: absolute;
+    user-select: none;
+    line-height: 1;
+  }
+  .hero-visual-grid {
+    position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .hero-visual-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 2rem;
+  }
+  .hero-initials {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .hero-badge {
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  }
+  .hero-badge span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero-badge strong {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+  }
+  .hero-badge-accent {
+    width: 32px; height: 2px; background: var(--accent);
+  }
+
+  .hero-stats {
+    position: absolute; bottom: -3rem; left: 0;
+    display: flex; gap: 3rem;
+  }
+  .stat {
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* MARQUEE */
+  .marquee-strip {
+    background: var(--ink);
+    padding: 1rem 0;
+    overflow: hidden;
+    margin-top: 2rem;
+  }
+  .marquee-track {
+    display: flex;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    padding: 0 3rem;
+    opacity: 0.7;
+  }
+  .marquee-dot {
+    color: var(--accent);
+    opacity: 1;
+    padding: 0;
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 8rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 6rem;
+    align-items: start;
+    border-top: 1px solid var(--line);
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block; width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .about-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    line-height: 1.9;
+    color: #4a4540;
+    margin-bottom: 2rem;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .skill-item {
+    display: flex; align-items: center; gap: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+  }
+  .skill-item::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .software-row {
+    display: flex; gap: 1.2rem; flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .software-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 0.4rem 0.9rem;
+    background: var(--card-bg);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .software-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* WORK */
+  #work {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--line);
+  }
+  .work-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: none;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 0; height: 3px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .project-card:hover::before { width: 100%; }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(13,13,13,0.08); }
+  .project-card.featured {
+    grid-column: span 2;
+  }
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .project-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+  .project-client {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+  .project-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .project-tags {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+  }
+  .project-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 0.25rem 0.6rem;
+  }
+  .project-visual {
+    height: 200px;
+    background: var(--cream);
+    margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-visual-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(200,68,26,0.12);
+    user-select: none;
+  }
+
+  /* EXPERIENCE */
+  #experience {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--line);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  #experience .section-title { color: var(--paper); }
+  #experience .section-title em { color: var(--accent-light); }
+  .exp-list {
+    margin-top: 4rem;
+  }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid rgba(245,240,232,0.1);
+    transition: background 0.2s;
+  }
+  .exp-item:first-child { border-top: 1px solid rgba(245,240,232,0.1); }
+  .exp-meta {
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+  }
+  .exp-company {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 0.05em;
+  }
+  .exp-content {}
+  .exp-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--paper);
+    margin-bottom: 0.8rem;
+  }
+  .exp-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.55);
+  }
+
+  /* EDUCATION */
+  #education {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+  }
+  .edu-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    padding: 2.5rem;
+    margin-bottom: 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .edu-card:hover { border-color: var(--accent); }
+  .edu-degree {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+  .edu-school {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+  .course-card {
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem 1.8rem;
+    background: var(--card-bg);
+    margin-bottom: 1rem;
+    transition: background 0.2s;
+  }
+  .course-card:hover { background: var(--cream); }
+  .course-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .course-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* CONTACT */
+  #contact {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-bg-text {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18rem;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(200,68,26,0.04);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+  }
+  .contact-inner { position: relative; z-index: 2; }
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .contact-title em { font-style: italic; color: var(--accent); }
+  .contact-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    max-width: 480px;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.7;
+  }
+  .contact-links {
+    display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--line);
+    padding: 0.8rem 1.5rem;
+    background: var(--card-bg);
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    cursor: none;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--ink);
+    color: rgba(245,240,232,0.4);
+  }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+  }
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--paper);
+    opacity: 0.6;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* DIVIDER */
+  .divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 2rem 0;
+  }
+  .divider-line { flex: 1; height: 1px; background: var(--line); }
+  .divider-mark {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; gap: 3rem; }
+    .hero-left { padding-right: 0; }
+    .hero-right { align-items: flex-start; }
+    .hero-visual { max-width: 100%; aspect-ratio: 4/3; }
+    .hero-stats { position: static; margin-top: 2rem; }
+    #about, #education { grid-template-columns: 1fr; gap: 3rem; }
+    #about, #work, #experience, #education, #contact { padding: 5rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    .work-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.8rem; }
+    footer { flex-direction: column; gap: 0.8rem; text-align: center; padding: 1.5rem; }
+    .contact-bg-text { font-size: 5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Mohamed <span>Adel</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:moadelnabawy@gmail.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Available for Freelance</div>
+    <h1 class="hero-name">
+      Mohamed<br><em>Adel</em>
+    </h1>
+    <div class="hero-title">Product &amp; UX Designer</div>
+    <p class="hero-desc">
+      Crafting digital experiences that balance user needs with business goals — from logistics systems to children's apps, across Egypt, Saudi Arabia, and Brazil.
+    </p>
+    <div class="hero-btns">
+      <a href="#work" class="btn-primary">View Projects</a>
+      <a href="mailto:moadelnabawy@gmail.com" class="btn-secondary">Get in Touch</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">3<span>+</span></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">10<span>+</span></div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Countries Served</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <img src="assets/photo.png" alt="Mohamed Adel" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:1.5rem 2rem;background:linear-gradient(transparent,rgba(13,13,13,0.85));z-index:2;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.6);margin-bottom:0.3rem;">Based In</div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:#f5f0e8;letter-spacing:0.08em;">Giza, Egypt</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">UI Design</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">UX Research</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Product Strategy</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Figma</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Prototyping</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Design Systems</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Usability Testing</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">User Research</span><span class="marquee-item marquee-dot">◆</span>
+    <!-- repeat for seamless loop -->
+    <span class="marquee-item">UI Design</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">UX Research</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Product Strategy</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Figma</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Prototyping</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Design Systems</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Usability Testing</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">User Research</span><span class="marquee-item marquee-dot">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">About Me</div>
+    <h2 class="section-title">Design is<br>about <em>people</em>,<br>not pixels.</h2>
+  </div>
+  <div class="reveal reveal-delay-1">
+    <p class="about-text">
+      I'm a Product Designer with over 3 years of experience building end-to-end digital products. I've led design on logistics platforms, attendance systems, sports analytics tools, government portals, and childcare apps — solving real problems for real users.
+    </p>
+    <p class="about-text">
+      My approach combines deep user research, competitive analysis, and close collaboration with development teams to turn complex workflows into elegant, intuitive experiences.
+    </p>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark"></div><div class="divider-line"></div></div>
+
+    <div class="section-label" style="margin-top:1.5rem;">Core Skills</div>
+    <div class="skills-grid">
+      <div class="skill-item">Wireframing & Prototyping</div>
+      <div class="skill-item">User & Market Research</div>
+      <div class="skill-item">Information Architecture</div>
+      <div class="skill-item">UI Principles & Design Systems</div>
+      <div class="skill-item">Usability Testing</div>
+      <div class="skill-item">Card Sorting</div>
+      <div class="skill-item">Empathy Mapping</div>
+      <div class="skill-item">Competitor Analysis</div>
+    </div>
+
+    <div class="section-label" style="margin-top:2rem;">Tools</div>
+    <div class="software-row">
+      <div class="software-tag">Figma</div>
+      <div class="software-tag">Adobe XD</div>
+      <div class="software-tag">Photoshop</div>
+      <div class="software-tag">Illustrator</div>
+      <div class="software-tag">Clarity</div>
+      <div class="software-tag">HTML / CSS</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-header reveal">
+    <div>
+      <div class="section-label">Selected Work</div>
+      <h2 class="section-title">Projects that<br><em>matter</em></h2>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;color:var(--muted);">2022 — 2024</div>
+  </div>
+
+  <div class="projects-grid">
+
+    <div class="project-card featured reveal">
+      <div class="project-visual">
+        <div class="project-visual-letter">A</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#e8ddd0,#d4c9b8);opacity:0.5;"></div>
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(200,68,26,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(200,68,26,0.06) 1px,transparent 1px);background-size:30px 30px;"></div>
+      </div>
+      <div class="project-num">01 — Featured</div>
+      <a href="https://algoistic.com" target="_blank" class="project-link-btn" title="View Algoistic Logistics System"></a>
+      <div class="project-name">Algoistic Logistics System</div>
+      <div class="project-client">Algoriza · Egypt · 2024</div>
+      <p class="project-desc">Built a comprehensive logistics platform from scratch. Conducted deep competitor research on shipping companies, identified key pain points, and designed the full system architecture — closely monitored post-launch with Microsoft Clarity.</p>
+      <div class="project-tags">
+        <span class="project-tag">System Design</span>
+        <span class="project-tag">Research</span>
+        <span class="project-tag">Logistics</span>
+        <span class="project-tag">B2B</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-num">02</div>
+      <a href="https://mentorship.gea.gov.sa/" target="_blank" class="project-link-btn" title="View GEA Masarat Al-Tarfih"></a>
+      <div class="project-name">GEA Masarat Al-Tarfih</div>
+      <div class="project-client">Saudi General Entertainment Authority · 2024</div>
+      <p class="project-desc">Integrated platform connecting entertainment experts, beneficiaries, and admins. Enabled session booking and expert guidance for creative projects.</p>
+      <div class="project-tags">
+        <span class="project-tag">Gov Platform</span>
+        <span class="project-tag">Saudi Arabia</span>
+        <span class="project-tag">Marketplace</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">03</div>
+      <a href="https://apps.apple.com/app/turbo-attendance" target="_blank" class="project-link-btn" title="View Turbo Attendance"></a>
+      <div class="project-name">Turbo Attendance</div>
+      <div class="project-client">Turbo EG · Egypt · 2024</div>
+      <p class="project-desc">Redesigned the attendance app to fix check-in/out issues. Added an in-app attendance sheet, a news channel, and an employee directory to boost satisfaction.</p>
+      <div class="project-tags">
+        <span class="project-tag">Mobile App</span>
+        <span class="project-tag">Redesign</span>
+        <span class="project-tag">HR Tech</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-num">04</div>
+      <a href="https://iqstats.com" target="_blank" class="project-link-btn" title="View IQ Stats Football Analytics"></a>
+      <div class="project-name">IQ Stats Football Analytics</div>
+      <div class="project-client">IQ Stats · Egypt · 2024</div>
+      <p class="project-desc">Added new modules to a football analytics system for players, teams, and coaches — simplifying complex stat generation into intuitive reports.</p>
+      <div class="project-tags">
+        <span class="project-tag">Sports Tech</span>
+        <span class="project-tag">Data Dashboard</span>
+        <span class="project-tag">Analytics</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-num">05</div>
+      <a href="https://filhos.app" target="_blank" class="project-link-btn" title="View Filhos Childcare App"></a>
+      <div class="project-name">Filhos Childcare App</div>
+      <div class="project-client">Kindergarten Client · Brazil · 2023</div>
+      <p class="project-desc">Built a module for a Brazilian childcare app — enabling parents to track daily activities, view photos, and receive medication reminders in real time.</p>
+      <div class="project-tags">
+        <span class="project-tag">Mobile</span>
+        <span class="project-tag">Brazil</span>
+        <span class="project-tag">EdTech</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">06</div>
+      <a href="#" target="_blank" class="project-link-btn" title="View Al-Mohami Legal Platform"></a>
+      <div class="project-name">Al-Mohami Legal Platform</div>
+      <div class="project-client">Law Firm · Egypt · 2023</div>
+      <p class="project-desc">Designed a case management system for lawyers — with financial tracking, trademark records, and an approval/rejection workflow built in.</p>
+      <div class="project-tags">
+        <span class="project-tag">LegalTech</span>
+        <span class="project-tag">Dashboard</span>
+        <span class="project-tag">B2B</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal">
+    <div class="section-label" style="color:var(--accent-light);">Experience</div>
+    <h2 class="section-title">Where I've<br><em>made impact</em></h2>
+  </div>
+
+  <div class="exp-list">
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Oct 2023 — Present</div>
+        <div class="exp-company">Algoriza</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Product Designer</div>
+        <p class="exp-desc">Leading UI/UX design across multiple products — logistics platforms, HR tools, and sports analytics systems. Working end-to-end from research and IA to prototyping and post-launch analysis.</p>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-meta">
+        <div class="exp-period">Jan 2022 — Oct 2023</div>
+        <div class="exp-company">Turbo EG</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">UI/UX Designer</div>
+        <p class="exp-desc">Developed the client app and merchant system for Turbo. Improved shipment tracking interfaces, added a fuel reimbursement calculator, and enhanced overall clarity for drivers and customers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="reveal">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Foundation &amp;<br><em>learning</em></h2>
+  </div>
+
+  <div class="reveal reveal-delay-1">
+    <div class="section-label">Courses &amp; Workshops</div>
+    <div class="course-card">
+      <div class="course-name">UI Design Workshop</div>
+      <div class="course-org">Cradis — Figma, Design Systems, Design Tokens</div>
+    </div>
+    <div class="course-card">
+      <div class="course-name">UX Workshop</div>
+      <div class="course-org">Tremoloo — Professional UX Guidance</div>
+    </div>
+    <div class="course-card">
+      <div class="course-name">Front-End Development Diploma</div>
+      <div class="course-org">Route — HTML / CSS / JavaScript / PHP</div>
+    </div>
+
+    <div style="margin-top:2.5rem;">
+      <div class="section-label">Languages</div>
+      <div class="software-row" style="margin-top:0.5rem;">
+        <div class="software-tag">Arabic — Native</div>
+        <div class="software-tag">English — Good</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-bg-text">Let's Talk</div>
+  <div class="contact-inner reveal">
+    <div class="section-label" style="justify-content:center;margin-bottom:1.2rem;">Contact</div>
+    <h2 class="contact-title">Have a project<br>in <em>mind?</em></h2>
+    <p class="contact-sub">I'm always open to discussing new projects, creative ideas, or opportunities to be part of something meaningful.</p>
+
+    <div class="contact-links">
+      <a href="mailto:moadelnabawy@gmail.com" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        moadelnabawy@gmail.com
+      </a>
+      <a href="tel:+201115241913" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.06 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+        +20 111 524 1913
+      </a>
+      <a href="#" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="#" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+        Behance
+      </a>
+    </div>
+
+    <a href="mailto:moadelnabawy@gmail.com" class="btn-primary" style="display:inline-block;font-size:0.8rem;padding:1.1rem 2.5rem;letter-spacing:0.15em;">Start a Conversation →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2024 Mohamed Adel Khalil — All rights reserved</div>
+  <div class="footer-name">Mohamed Adel</div>
+  <div class="footer-copy">Giza, Egypt</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function animateCursor() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  })();
+  document.querySelectorAll('a, button, .project-card, .edu-card, .course-card, .software-tag').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
